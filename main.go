@@ -14,7 +14,7 @@ func main() {
     // Define command line flags
     binaryNamePtr := flag.String("name", "", "name of the tool/keyword to run your tool in the cli (required)")
     mainFilePathPtr := flag.String("source", "", "path to the main go source code file (required)")
-    targetDirPtr := flag.String("destination", "", "optional: target directory (relative to home, defaults to $HOME/tools)")
+    targetDirPtr := flag.String("destination", "", "optional: target directory (relative to home, defaults to $HOME)")
 
     // Parse command line flags
     flag.Parse()
@@ -34,7 +34,7 @@ func main() {
     // Use default target directory if not provided
     var err error
     if targetDir == "" {
-        targetDir, err = makeDirRelativeToHome("tools")
+        targetDir, err = makeDirRelativeToHome("")
         if err != nil {
             fmt.Println("Error:", err)
             return
@@ -88,6 +88,7 @@ func makeDirRelativeToHome(dirName string) (string, error) {
     err = os.MkdirAll(destinationPath, os.ModePerm)
     if err != nil {
         fmt.Println("Error:", err)
+
         return "", err
     }
 
