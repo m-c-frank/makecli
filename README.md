@@ -37,7 +37,7 @@ as long as your own go file does something you can use this to make it work ever
 ## Example
 Add a new tool named "mytool":
 ```sh
-makecli -name note -source main.go
+mkcli -name note -source main.go
 ```
 
 ## Notes
