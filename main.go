@@ -10,7 +10,21 @@ import (
     "path/filepath"
 )
 
+func getTargetPath(targetDirPtr *string) (string, error) {
+    var err error
+    if *targetDirPtr == "" {
+        targetDir, err:= os.UserHomeDir()
+        if err != nil {
+            fmt.Println("Error: ", err)
+            return "", err
+        }
+        return targetDir, err
+    }
+    targetDir := *targetDirPtr
+    return targetDir, err
+}
 func main() {
+    var err error
     // Define command line flags
     binaryNamePtr := flag.String("name", "", "name of the tool/keyword to run your tool in the cli (required)")
     mainFilePathPtr := flag.String("source", "", "path to the main go source code file (required)")
@@ -26,13 +40,14 @@ func main() {
         return
     }
 
+
     // collect the args
     binaryName := *binaryNamePtr
     mainFilePath := *mainFilePathPtr
-    targetDir := *targetDirPtr
+    targetDir, err := getTargetPath(targetDirPtr)
+
 
     // Use default target directory if not provided
-    var err error
     if targetDir == "" {
         targetDir, err = makeDirRelativeToHome("")
         if err != nil {
